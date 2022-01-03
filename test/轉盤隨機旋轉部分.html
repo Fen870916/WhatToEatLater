@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        color: white;
+      }
+      .turntable {
+        margin: auto;
+        width: 400px;
+        height: 400px;
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+      .triangle {
+        position: absolute;
+        left: calc(200px * -0.57735026918962576450914878050196 + 200px);
+        border-top: 200px rgb(21, 21, 144) solid;
+        border-left: calc(200px * 0.57735026918962576450914878050196)
+          transparent solid;
+        border-right: calc(200px * 0.57735026918962576450914878050196)
+          transparent solid;
+        transform-origin: 50% 100%;
+      }
+      .triangle:nth-of-type(2n) {
+        border-top: 200px rgb(235, 152, 0) solid;
+      }
+      .p2 {
+        transform: rotate(60deg);
+      }
+      .p3 {
+        transform: rotate(120deg);
+      }
+      .p4 {
+        transform: rotate(180deg);
+      }
+      .p5 {
+        transform: rotate(240deg);
+      }
+      .p6 {
+        transform: rotate(300deg);
+      }
+      .text {
+        position: absolute;
+        top: -180px;
+      }
+      .turntable:hover {
+        transform: rotate(360deg);
+        transition: 5s;
+      }
+      .start {
+        margin: auto;
+        display: block;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 轉盤為6等分 -->
+    <!-- 圈數一樣 秒數一樣 停下的角度不一樣 -->
+    <div class="turntable">
+      <div class="triangle p1">
+        <div class="text">1</div>
+      </div>
+      <div class="triangle p2">
+        <div class="text">2</div>
+      </div>
+      <div class="triangle p3">
+        <div class="text">3</div>
+      </div>
+      <div class="triangle p4">
+        <div class="text">4</div>
+      </div>
+      <div class="triangle p5">
+        <div class="text">5</div>
+      </div>
+      <div class="triangle p6">
+        <div class="text">6</div>
+      </div>
+    </div>
+    <button class="start">開始</button>
+
+    <script>
+      document.querySelector('.start').addEventListener('click', clickStart)
+      let rotateDeg = 0
+      let rotateDegLast = 0
+      function clickStart() {
+        let turntable = document.querySelector('.turntable')
+        let turntableStyle = turntable.style
+        // 因陣列取值只取到11所以會產生轉盤倒轉
+        // if (turntableStyle.transform.slice(7, -1) === '') {
+        //   rotateDeg = 1080 + Math.floor(Math.random() * 360)
+        // } else {
+        //   rotateDeg =
+        //     turntableStyle.transform.slice(7, 11) * 1 +
+        //     1080 +
+        //     Math.floor(Math.random() * 360)
+        // }
+        rotateDeg = rotateDegLast + 1080 + Math.floor(Math.random() * 360)
+        rotateDegLast = rotateDeg
+        console.log(rotateDeg)
+        console.log(turntableStyle.transform.slice(7, -1))
+        turntableStyle.transform = 'rotate(' + rotateDeg + 'deg)'
+        turntableStyle.transition = '3s'
+        // turntableStyle.transform = 'rotate(' + rotateDeg + 'deg)'
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .content {
+        width: 100px;
+        height: 100px;
+        background-color: wheat;
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="function">
+      <input type="text" name="" id="" placeholder="請輸入要新增的內容" />
+      <button class="add">新增</button>
+      <button class="start">開始</button>
+    </div>
+
+    <div class="textList">
+      <!-- <div class="text">
+        <div class="number">1</div>
+        <input type="text" name="" id="" />
+        <button class="edit">編輯</button>
+        <button class="delete">刪除</button>
+      </div> -->
+    </div>
+
+    <script>
+      document.querySelector('.add').addEventListener('click', clickAdd)
+      function clickAdd() {
+        // 新增文字框
+        if (flag !== 1) {
+          let newText = document.createElement('div')
+          newText.classList.add('text')
+          let textNumber = document.querySelectorAll('.text')
+          newText.innerHTML =
+            `<div class="number">` +
+            (textNumber.length + 1) +
+            `</div>
+                <input class="editText" type="text" name="" id="" />
+                <button class="editComplete" style="display:none">編輯完成</button>
+                <button class="delete">刪除</button>`
+
+          // 將在輸入框輸入的文字加入文字框中
+          newText.childNodes[2].value =
+            document.querySelector('.function>input').value
+
+          document.querySelector('.textList').appendChild(newText)
+        }
+
+        {
+          // // 新增元素
+          // let triangle = document.createElement('div')
+          // // 為元素添加名為triangle的class
+          // triangle.classList.add('triangle')
+          // // 設定transform
+          // triangle.style.transform =
+          //   'rotate(calc(' + (textNumber.length + 1) + ' * var(--transformDeg)))'
+          // // 將輸入的文字加入轉盤等份中
+          // triangle.innerHTML =
+          //   `<div class="rowText">` + newText.childNodes[2].value + `</div>`
+          // document.querySelector('.turntableCircle').appendChild(triangle)
+          // let changeNumber = document.querySelectorAll('.triangle')
+          // for (i = 0; i < changeNumber.length; i++) {
+          //   if (textNumber.length + 1 === 1) {
+          //     //tan(180)怪怪的
+          //     changeNumber[i].style.setProperty(
+          //       '--oppositeSide',
+          //       'calc(' + 83000 + ' * var(--adjacentSide))'
+          //     )
+          //     changeNumber[i].style.borderTop = '400px solid #fdeca6'
+          //   } else if (textNumber.length + 1 === 2) {
+          //     //tan(90)不存在
+          //     changeNumber[i].style.setProperty(
+          //       '--oppositeSide',
+          //       'calc(' + 83000 + ' * var(--adjacentSide))'
+          //     )
+          //     changeNumber[0].style.borderTop =
+          //       'var(--adjacentSide) solid #fdeca6'
+          //     changeNumber[1].style.borderTop =
+          //       'var(--adjacentSide) solid #ffca18'
+          //   } else {
+          //     //對邊
+          //     //改變css中oppositeSide變數
+          //     //Math.tan(逕度(or 弧度))
+          //     changeNumber[i].style.setProperty(
+          //       '--oppositeSide',
+          //       'calc(' +
+          //         Math.tan(
+          //           ((360 / (textNumber.length + 1) / 2) * Math.PI) / 180
+          //         ) +
+          //         ' * var(--adjacentSide))'
+          //     )
+          //     // 顏色
+          //     // 除了前三個 如果為3n+1等分最後一個3n+1不改變顏色會跟1顏色相同不方便觀看
+          //     if (i + 1 > 3 && (textNumber.length + 1) % 3 === 1) {
+          //       changeNumber[textNumber.length + 1 - 1].style.borderTop =
+          //         'var(--adjacentSide) solid #ffca18'
+          //     } else {
+          //       if ((i + 1) % 3 === 1) {
+          //         changeNumber[i].style.borderTop =
+          //           'var(--adjacentSide) solid #fdeca6'
+          //       } else if ((i + 1) % 3 === 2) {
+          //         changeNumber[i].style.borderTop =
+          //           'var(--adjacentSide) solid #ffca18'
+          //       } else if ((i + 1) % 3 === 0) {
+          //         changeNumber[i].style.borderTop =
+          //           'var(--adjacentSide) solid #ff7f27'
+          //       }
+          //     }
+          //   }
+          //   //角度
+          //   //改變css中transformDeg變數
+          //   changeNumber[i].style.setProperty(
+          //     '--transformDeg',
+          //     'calc(360deg /' + (textNumber.length + 1) + ')'
+          //   )
+          // }
+        }
+        document.querySelector('.function>input').value = ''
+      }
+
+      document.querySelector('.textList').addEventListener('click', clickDelete)
+      function clickDelete(e) {
+        if (e.target.classList.contains('delete') && flag !== 1) {
+          // 按下delete刪除文字框的父元素
+          e.target.parentNode.parentNode.removeChild(e.target.parentNode)
+          console.log(e.target)
+          let number = document.querySelectorAll('.number')
+          for (i = 0; i < number.length; i++) {
+            number[i].innerHTML = i + 1
+          }
+        }
+      }
+
+      let flag = 0
+      // if (document.querySelector('.editComplete')) {
+      document.addEventListener('click', clickText)
+      // }
+
+      function clickText(e) {
+        let editComplete = document.querySelectorAll('.editComplete')
+        for (i = 0; i < editComplete.length; i++) {
+          console.log(e.target)
+          console.log(editComplete[i].style.display !== 'inline-block')
+          if (
+            e.target ===
+              editComplete[i].parentNode.querySelector('.editText') &&
+            flag === 0
+          ) {
+            console.log(e.target.value)
+            // 點擊文字框出現編輯完成按鈕
+            editComplete[i].style.display = 'inline-block'
+            flag = 1
+          } else if (e.target === editComplete[i]) {
+            editComplete[i].style.display = 'none'
+            flag = 0
+          } else {
+            if (editComplete[i]) {
+              if (
+                editComplete[i].style.display !== 'none' &&
+                e.target !==
+                  editComplete[i].parentNode.querySelector('.editText')
+              ) {
+                // let yes = confirm('是否放棄')
+                // if (yes) {
+                //   editComplete[i].style.display = 'none'
+                //   flag = 0
+                // } else {
+                //   editComplete[i].parentNode.querySelector('.editText').focus()
+                //   flag = 1
+                // }
+                alert('請點選編輯完成')
+                editComplete[i].parentNode.querySelector('.editText').focus()
+              }
+            }
+          }
+        }
+        // let editComplete = document.querySelectorAll('.editComplete')
+        // for (i = 0; i < editComplete.length; i++) {
+        //   if (e.target.classList.contains('editText') && flag === 0) {
+        //     // if (editComplete[i].style.display === 'none') {
+        //     // 點擊文字框出現編輯完成按鈕
+        //     e.target.parentNode.querySelector('.editComplete').style.display =
+        //       'inline-block'
+        //     flag = 1
+        //   } else if (e.target === editComplete[i]) {
+        //     editComplete[i].style.display = 'none'
+        //     flag = 0
+        //   } else {
+        //     if (editComplete[i]) {
+        //       if (editComplete[i].style.display !== 'none') {
+        //         let yes = confirm('是否放棄')
+        //         if (yes) {
+        //           editComplete[i].style.display = 'none'
+        //           flag = 0
+        //         } else {
+        //           editComplete[i].parentNode.querySelector('.editText').focus()
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
+      }
+    </script>
+  </body>
+</html>

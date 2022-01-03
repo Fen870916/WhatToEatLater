@@ -1,0 +1,506 @@
+<!-- 目標:刪除文字框後轉盤等份也要減少 -->
+<!-- 目標:完成點擊其他地方出現選擇提示 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>轉盤</title>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <style>
+      body {
+        background: linear-gradient(
+          270deg,
+          rgba(100, 120, 255, 0.9) 0%,
+          rgba(255, 221, 171, 0.8) 83%
+        );
+        color: black;
+      }
+      :root {
+        --transformDeg: calc(360deg / 1);
+        --adjacentSide: 200px;
+        --oppositeSide: calc(400 * var(--adjacentSide));
+        --pointerColor: red;
+      }
+
+      .title {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 28px;
+      }
+
+      .whatToEatAllDay {
+        margin-top: 70px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .turntableCircle {
+        border-radius: 50%;
+        width: calc(2 * var(--adjacentSide));
+        height: calc(2 * var(--adjacentSide));
+        overflow: hidden;
+        position: relative;
+        transition: 2s;
+        border: black 1px solid;
+      }
+
+      .triangle {
+        position: absolute;
+        left: calc(var(--oppositeSide) * -1 + var(--adjacentSide));
+        top: 0;
+        border-top: var(--adjacentSide) solid var(--adjacentSideColor);
+        border-left: var(--oppositeSide) solid transparent;
+        border-right: var(--oppositeSide) solid transparent;
+        transform-origin: 50% 100%;
+      }
+
+      .triangle:nth-of-type(3n-2) {
+        border-top: var(--adjacentSide) solid #ff7f27;
+      }
+      .triangle:nth-of-type(3n-1) {
+        border-top: var(--adjacentSide) solid #ffca18;
+      }
+      .triangle:nth-of-type(3n) {
+        border-top: var(--adjacentSide) solid #fdeca6;
+      }
+
+      .centerCircle {
+        background-color: black;
+        width: 25px;
+        height: 25px;
+        background-color: var(--pointerColor);
+        position: absolute;
+        left: 50%;
+        top: calc(var(--adjacentSide) + 1px);
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        z-index: 9;
+      }
+      .pointer {
+        border-left: transparent 10px solid;
+        border-right: transparent 10px solid;
+        border-top: var(--pointerColor) 20px solid;
+        position: absolute;
+        left: 50%;
+        top: -780%;
+        transform: translate(-50%, -50%);
+        z-index: 99;
+      }
+      .triangle > .rowText {
+        width: calc(var(--adjacentSide) * 0.6);
+        position: absolute;
+        left: 0;
+        bottom: 30px;
+        text-overflow: ellipsis;
+        transform: rotate(-90deg);
+        transform-origin: 0 50%;
+        text-align: right;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: 16px;
+      }
+
+      .function {
+        margin-top: 73px;
+      }
+      .function > button {
+        background-color: #f2cecf;
+        padding: 5px;
+        border: 0;
+        border-radius: 4px;
+      }
+
+      .function > .add {
+        background-color: #295ea4;
+      }
+      .function > .start {
+        background-color: #ffcb4f;
+      }
+      .function > input {
+        height: 27px;
+        width: 200px;
+        padding: 0;
+        padding-left: 5px;
+        border: 0;
+        border-radius: 4px;
+        vertical-align: top;
+        border: 1px solid black;
+      }
+
+      .textList {
+        margin: 5px 0;
+        color: black;
+      }
+      .textList > * {
+        margin: 10px 0;
+      }
+      .text {
+        font-size: 0px;
+      }
+
+      .number {
+        height: 21px;
+        width: 14px;
+        display: inline-block;
+        background-color: #f2cecf;
+        font-size: 14px;
+        line-height: 21px;
+        text-align: center;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+
+      .text > input {
+        vertical-align: top;
+        border: 0;
+        padding: 0;
+        padding-left: 5px;
+        height: 21px;
+        background-color: #faf9f5;
+        user-select: unset;
+      }
+
+      .text > .editComplete {
+        height: 21px;
+        border: 0;
+        padding: 0;
+        vertical-align: top;
+        background-color: #97d8bd;
+      }
+
+      .text > .delete {
+        height: 21px;
+        border: 0;
+        padding: 0;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        vertical-align: top;
+        background-color: #f66049;
+      }
+      .text > .editComplete,
+      .text > .delete {
+        padding: 0 5px;
+      }
+      .drawLotsList {
+        margin: 20px;
+      }
+      .drawLots {
+        padding: 5px;
+        border: black 1px solid;
+        width: 287px;
+        height: 100px;
+        border-radius: 4px;
+      }
+      .drawLots > div {
+        margin: 5px;
+      }
+      .drawLots > div > span {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">等一下吃什麼</div>
+    <div class="whatToEatAllDay">
+      <div class="turntableCircle" style="display: none"></div>
+
+      <div class="centerCircle" style="display: none">
+        <div class="pointer"></div>
+      </div>
+
+      <div class="function">
+        <input type="text" name="" id="" placeholder="請輸入要新增的內容" />
+        <button class="add">新增</button>
+        <button class="start">開始</button>
+      </div>
+
+      <div class="textList">
+        <!-- <div class="text">
+          <div class="number">1</div>
+          <input type="text" name="" id="" />
+          <button class="editComplete" style="display:none">編輯完成</button>
+          <button class="delete">刪除</button>
+        </div> -->
+      </div>
+
+      <div class="drawLotsList">
+        抽中
+        <div class="drawLots"></div>
+      </div>
+    </div>
+
+    <script>
+      // 按下add時新增文字框及轉盤等份
+      document.querySelector('.add').addEventListener('click', clickAdd)
+      function clickAdd() {
+        // 新增文字框
+        if (flag !== 1) {
+          // 編輯完成按鈕不顯示時
+          let newText = document.createElement('div')
+          newText.classList.add('text')
+          let textNumber = document.querySelectorAll('.text')
+          newText.innerHTML =
+            `<div class="number">` +
+            (textNumber.length + 1) +
+            `</div>
+            <input class="editText" type="text" name="" id="" />
+            <button class="editComplete" style="display:none">編輯完成</button>
+            <button class="delete">刪除</button>`
+
+          // 將在輸入框輸入的文字加入文字框中
+          newText.childNodes[2].value =
+            document.querySelector('.function>input').value
+
+          document.querySelector('.textList').appendChild(newText)
+
+          // 新增元素
+          let triangle = document.createElement('div')
+          // 為元素添加名為triangle的class
+          triangle.classList.add('triangle')
+          // 將輸入的文字加入轉盤等份中
+          triangle.innerHTML =
+            `<div class="rowText">` + newText.childNodes[2].value + `</div>`
+          document.querySelector('.turntableCircle').appendChild(triangle)
+
+          // console.log(textNumber.length + 1)
+          addTriangle(textNumber.length + 1)
+          document.querySelector('.function>input').value = ''
+        }
+      }
+
+      function addTriangle(part) {
+        let changeNumber = document.querySelectorAll('.triangle')
+        // console.log(changeNumber.length)
+        let triangleNumber = document.querySelectorAll('.number')
+        let rowText = document.querySelectorAll('.rowText')
+
+        for (i = 0; i < changeNumber.length; i++) {
+          if (part === 1) {
+            // 設定transform
+            changeNumber[i].style.transform =
+              'rotate(calc(' +
+              triangleNumber[i].innerHTML +
+              ' * var(--transformDeg)))'
+            //tan(180)怪怪的
+            changeNumber[i].style.setProperty(
+              '--oppositeSide',
+              'calc(' + 1 + ' * var(--adjacentSide))'
+            )
+            changeNumber[i].style.borderTop = '400px solid #fdeca6'
+            changeNumber[i].style.borderLeft = '200px solid #fdeca6'
+            changeNumber[i].style.borderRight = '200px solid #fdeca6'
+            rowText[0].style.bottom = '230px'
+          } else if (part === 2) {
+            // 設定transform
+            changeNumber[i].style.transform =
+              'rotate(calc(' +
+              triangleNumber[i].innerHTML +
+              ' * var(--transformDeg)))'
+            //tan(90)不存在
+            changeNumber[i].style.setProperty(
+              '--oppositeSide',
+              'calc(' + 1 + ' * var(--adjacentSide))'
+            )
+            changeNumber[0].style.borderTop = '200px solid #fdeca6'
+            changeNumber[0].style.borderLeft = '200px solid #fdeca6'
+            changeNumber[0].style.borderRight = '200px solid #fdeca6'
+            changeNumber[1].style.borderTop = '200px solid #ffca18'
+            changeNumber[1].style.borderLeft = '200px solid #ffca18'
+            changeNumber[1].style.borderRight = '200px solid #ffca18'
+            rowText[i].style.bottom = '30px'
+          } else {
+            // 設定transform
+            changeNumber[i].style.transform =
+              'rotate(calc(' +
+              triangleNumber[i].innerHTML +
+              ' * var(--transformDeg)))'
+            //對邊
+            //改變css中oppositeSide變數
+            //Math.tan(逕度(or 弧度))
+            changeNumber[i].style.borderLeft =
+              'var(--oppositeSide) solid transparent'
+            changeNumber[i].style.borderRight =
+              'var(--oppositeSide) solid transparent'
+            changeNumber[i].style.setProperty(
+              '--oppositeSide',
+              'calc(' +
+                Math.tan(((360 / part / 2) * Math.PI) / 180) +
+                ' * var(--adjacentSide))'
+            )
+            rowText[i].style.bottom = '30px'
+
+            // 顏色
+            // 除了前三個 如果為3n+1等分最後一個3n+1不改變顏色會跟1顏色相同不方便觀看
+            if (i + 1 > 3 && part % 3 === 1) {
+              changeNumber[part - 1].style.borderTop =
+                'var(--adjacentSide) solid #ffca18'
+            } else {
+              if ((i + 1) % 3 === 1) {
+                changeNumber[i].style.borderTop =
+                  'var(--adjacentSide) solid #fdeca6'
+              } else if ((i + 1) % 3 === 2) {
+                changeNumber[i].style.borderTop =
+                  'var(--adjacentSide) solid #ffca18'
+              } else if ((i + 1) % 3 === 0) {
+                changeNumber[i].style.borderTop =
+                  'var(--adjacentSide) solid #ff7f27'
+              }
+            }
+          }
+          //角度
+          //改變css中transformDeg變數
+          // console.log('p:' + p)
+          changeNumber[i].style.setProperty(
+            '--transformDeg',
+            'calc(360deg /' + part + ')'
+          )
+        }
+      }
+
+      // 按下delete並刪除文字框的父元素 即.text
+      // 目標
+      document.querySelector('.textList').addEventListener('click', clickDelete)
+      function clickDelete(e) {
+        if (e.target.classList.contains('delete') && flag !== 1) {
+          // 按下delete刪除文字框的父元素
+          let deleteTriangle = document.querySelectorAll('.triangle')
+          let deleteNumber =
+            e.target.parentNode.querySelector('.number').innerHTML
+          deleteTriangle[deleteNumber - 1].parentNode.removeChild(
+            deleteTriangle[deleteNumber - 1]
+          )
+          e.target.parentNode.parentNode.removeChild(e.target.parentNode)
+          let number = document.querySelectorAll('.number')
+          let trianglePart = number.length
+          for (i = 0; i < number.length; i++) {
+            // console.log(number.length)
+            number[i].innerHTML = i + 1
+            // console.log(number[i].innerHTML)
+          }
+          addTriangle(number.length)
+        }
+      }
+
+      // 按下文字框後出現完成按鈕 按下完成編輯按鈕後將輸入的文字加入轉盤等份上並將焦點移出文字框
+      // 目標
+      let flag = 0
+      document.addEventListener('click', clickText)
+      function clickText(e) {
+        if (document.querySelectorAll('.triangle').length !== 0) {
+          document.querySelector('.turntableCircle').style.display = 'block'
+          document.querySelector('.centerCircle').style.display = 'block'
+        }
+        let editComplete = document.querySelectorAll('.editComplete')
+        for (i = 0; i < editComplete.length; i++) {
+          if (
+            e.target ===
+              editComplete[i].parentNode.querySelector('.editText') &&
+            flag === 0
+          ) {
+            editComplete[i].style.display = 'inline-block'
+            flag = 1
+          } else if (e.target === editComplete[i]) {
+            document
+              .querySelectorAll('.triangle')
+              [
+                e.target.parentNode.querySelector('.number').innerHTML - 1
+              ].querySelector('.rowText').innerHTML =
+              e.target.parentNode.querySelector('.editText').value
+            editComplete[i].style.display = 'none'
+            flag = 0
+          } else {
+            if (editComplete[i]) {
+              if (
+                editComplete[i].style.display !== 'none' &&
+                e.target !==
+                  editComplete[i].parentNode.querySelector('.editText')
+              ) {
+                // let yes = confirm('是否放棄')
+                // if (yes) {
+                //   editComplete[i].style.display = 'none'
+                //   flag = 0
+                // } else {
+                //   editComplete[i].parentNode.querySelector('.editText').focus()
+                //   flag = 1
+                // }
+                // 先以純提示點擊編輯完成 替代提示選擇是否放棄 待改進
+                alert('請點選編輯完成')
+                editComplete[i].parentNode.querySelector('.editText').focus()
+              }
+            }
+          }
+        }
+      }
+
+      // 轉盤隨機旋轉
+
+      document.querySelector('.start').addEventListener('click', clickStart)
+      let rotateDeg = 0
+      let rotateDegLast = 0
+      function clickStart() {
+        if (flag !== 1) {
+          let turntableCircle = document.querySelector('.turntableCircle')
+          let turntableCircleStyle = turntableCircle.style
+          rotateDeg = rotateDegLast + 1080 + Math.floor(Math.random() * 360)
+          rotateDegLast = rotateDeg
+          turntableCircleStyle.transform = 'rotate(' + rotateDeg + 'deg)'
+          turntableCircleStyle.transition = '3s'
+        }
+      }
+
+      //抽中
+
+      document
+        .querySelector('.turntableCircle')
+        .addEventListener('transitionend', clickPosition, false)
+      function clickPosition() {
+        let t = document.querySelectorAll('.triangle')
+        let tr = document.querySelector('.turntableCircle').style.transform
+        let c = document.querySelectorAll('.drawLots>div')
+        if (
+          (tr.slice(7, tr.length - 4) % 360) - 360 / t.length / 2 < 0 ||
+          (tr.slice(7, tr.length - 4) % 360) - 360 / t.length / 2 >
+            (360 / t.length) * (t.length - 1)
+        ) {
+          console.log(t[t.length - 1].childNodes[0].innerHTML)
+          let drawLots = document.createElement('div')
+          drawLots.innerHTML =
+            `<span>` +
+            (c.length + 1) +
+            `. ` +
+            `</span>` +
+            t[t.length - 1].childNodes[0].innerHTML
+          document.querySelector('.drawLots').appendChild(drawLots)
+        } else {
+          for (i = 0; i < t.length; i++) {
+            if (
+              (tr.slice(7, tr.length - 4) % 360) -
+                360 / t.length / 2 -
+                (360 / t.length) * i >
+                0 &&
+              (tr.slice(7, tr.length - 4) % 360) -
+                360 / t.length / 2 -
+                (360 / t.length) * i <
+                360 / t.length
+            ) {
+              console.log(t[t.length - 1 - i - 1].childNodes[0].innerHTML)
+              let drawLots = document.createElement('div')
+              drawLots.innerHTML =
+                `<span>` +
+                (c.length + 1) +
+                `. ` +
+                `</span>` +
+                t[t.length - 1 - i - 1].childNodes[0].innerHTML
+              document.querySelector('.drawLots').appendChild(drawLots)
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

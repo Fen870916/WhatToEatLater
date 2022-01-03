@@ -1,0 +1,235 @@
+<!-- 進度 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <style>
+      body {
+        background-color: black;
+        color: white;
+      }
+      :root {
+        --transformDeg: calc(360deg / 1);
+        --adjacentSide: 200px;
+        --oppositeSide: calc(400 * var(--adjacentSide));
+        --pointerColor: red;
+      }
+
+      .whatToEatAllDay {
+        margin-top: 100px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .turntableCircle {
+        border-radius: 50%;
+        width: calc(2 * var(--adjacentSide));
+        height: calc(2 * var(--adjacentSide));
+        overflow: hidden;
+        position: relative;
+        transition: 2s;
+        border: white 1px solid;
+      }
+      .turntableCircle:hover {
+        transform: rotate(360deg);
+      }
+
+      .triangle {
+        position: absolute;
+        left: calc(var(--oppositeSide) * -1 + var(--adjacentSide));
+        top: 0;
+        border-top: var(--adjacentSide) solid var(--adjacentSideColor);
+        border-left: var(--oppositeSide) solid transparent;
+        border-right: var(--oppositeSide) solid transparent;
+        transform-origin: 50% 100%;
+      }
+
+      .triangle:nth-of-type(3n-2) {
+        border-top: var(--adjacentSide) solid #ff7f27;
+      }
+      .triangle:nth-of-type(3n-1) {
+        border-top: var(--adjacentSide) solid #ffca18;
+      }
+      .triangle:nth-of-type(3n) {
+        border-top: var(--adjacentSide) solid #fdeca6;
+      }
+
+      .centerCircle {
+        background-color: black;
+        width: 25px;
+        height: 25px;
+        background-color: var(--pointerColor);
+        position: absolute;
+        left: 50%;
+        top: calc(var(--adjacentSide) + 1px);
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        z-index: 9;
+      }
+      .pointer {
+        border-left: var(--pointerColor) 20px solid;
+        border-top: transparent 10px solid;
+        border-bottom: transparent 10px solid;
+        position: absolute;
+        left: 60%;
+        top: 50%;
+        transform: translate(0, -50%);
+        z-index: 99;
+      }
+      .triangle > .rowText {
+        width: calc(var(--adjacentSide) * 0.6);
+        position: absolute;
+        left: 0;
+        top: -80px;
+        /* left: 0;
+        top: -80px; */
+        text-overflow: ellipsis;
+        transform: rotate(-90deg);
+        /* background-color: wheat; */
+        transform-origin: 0 50%;
+        text-align: right;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: calc(var(--adjacentSide) / 12.5);
+      }
+
+      .textList {
+        margin: 10px 0;
+      }
+      .textList > * {
+        display: block;
+        margin: 10px 0;
+      }
+
+      /* .test {
+        background-color: wheat;
+        transform-origin: 0 50%;
+      }
+      .test:hover {
+        transform: rotate(270deg);
+      } */
+
+      /* .test {
+        display: flex;
+        justify-content: center;
+      }
+      .testIn {
+        width: 100px;
+        height: 100px;
+        background-color: black;
+        position: relative;
+      } */
+
+      /* .test {
+        color: var(--pointerColor);
+      } */
+    </style>
+  </head>
+  <body>
+    <div class="whatToEatAllDay">
+      <div class="turntableCircle"></div>
+
+      <div class="centerCircle">
+        <div class="pointer"></div>
+      </div>
+
+      <div class="textList">
+        <textarea class="text" name="" id="" cols="30" rows="10"></textarea>
+      </div>
+
+      <div class="fuction">
+        <button class="add">新增</button>
+        <button class="submit">提交</button>
+        <button class="start">開始</button>
+        <button class="stop">停止</button>
+      </div>
+    </div>
+
+    <script>
+      let text = document.querySelector('.text')
+      text.addEventListener('keyup', addText)
+      function addText() {
+        //如果輸入enter
+        if (event.keyCode === 13) {
+          let rowText = text.value.split('\n')
+          let part = this.value.match(/\r?\n|\r/g).length
+          console.log(part)
+          //如果沒有文字
+          //進度:沒有文字不會增加轉盤等分
+          if (rowText[part - 1] === '') {
+            console.log(rowText)
+            console.log('rowText:', rowText[part])
+          } else {
+            let triangle = document.createElement('div')
+            triangle.classList.add('triangle')
+            triangle.style.transform =
+              'rotate(calc(' + part + ' * var(--transformDeg)))'
+            triangle.innerHTML =
+              `<div class="rowText">` + rowText[part - 1] + `</div>`
+            document.querySelector('.turntableCircle').appendChild(triangle)
+
+            let changeNumber = document.querySelectorAll('.triangle')
+
+            for (i = 0; i < changeNumber.length; i++) {
+              if (part === 1) {
+                //tan(180)怪怪的
+                changeNumber[i].style.setProperty(
+                  '--oppositeSide',
+                  'calc(' + 83000 + ' * var(--adjacentSide))'
+                )
+                changeNumber[i].style.borderTop = '400px solid #ff7f27'
+              } else if (part === 2) {
+                //tan(90)不存在
+                changeNumber[i].style.setProperty(
+                  '--oppositeSide',
+                  'calc(' + 83000 + ' * var(--adjacentSide))'
+                )
+                changeNumber[0].style.borderTop =
+                  'var(--adjacentSide) solid #fdeca6'
+                changeNumber[1].style.borderTop =
+                  'var(--adjacentSide) solid #ffca18'
+              } else {
+                //對邊
+                //改變css中oppositeSide變數
+                //Math.tan(逕度(or 弧度))
+                changeNumber[i].style.setProperty(
+                  '--oppositeSide',
+                  'calc(' +
+                    Math.tan(((360 / part / 2) * Math.PI) / 180) +
+                    ' * var(--adjacentSide))'
+                )
+                if (i + 1 > 3 && part % 3 === 1) {
+                  changeNumber[part - 1].style.borderTop =
+                    'var(--adjacentSide) solid #ffca18'
+                } else {
+                  if ((i + 1) % 3 === 1) {
+                    changeNumber[i].style.borderTop =
+                      'var(--adjacentSide) solid #fdeca6'
+                  } else if ((i + 1) % 3 === 2) {
+                    changeNumber[i].style.borderTop =
+                      'var(--adjacentSide) solid #ffca18'
+                  } else if ((i + 1) % 3 === 0) {
+                    changeNumber[i].style.borderTop =
+                      'var(--adjacentSide) solid #ff7f27'
+                  }
+                }
+              }
+              //角度
+              //改變css中transformDeg變數
+              changeNumber[i].style.setProperty(
+                '--transformDeg',
+                'calc(360deg /' + part + ')'
+              )
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
