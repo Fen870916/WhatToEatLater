@@ -25,6 +25,17 @@
         --pointerColor: red;
       }
 
+      @media screen and (max-width: 500px) {
+        :root {
+          --adjacentSide: 150px;
+        }
+      }
+      @media screen and (max-width: 280px) {
+        :root {
+          --adjacentSide: 125px;
+        }
+      }
+
       .title {
         text-align: center;
         margin-top: 30px;
@@ -45,7 +56,6 @@
         height: calc(2 * var(--adjacentSide));
         overflow: hidden;
         position: relative;
-        transition: 2s;
         border: black 1px solid;
       }
 
@@ -71,8 +81,8 @@
 
       .centerCircle {
         background-color: black;
-        width: 25px;
-        height: 25px;
+        width: calc(var(--adjacentSide) * 0.125);
+        height: calc(var(--adjacentSide) * 0.125);
         background-color: var(--pointerColor);
         position: absolute;
         left: 50%;
@@ -82,12 +92,13 @@
         z-index: 9;
       }
       .pointer {
-        border-left: transparent 10px solid;
-        border-right: transparent 10px solid;
-        border-top: var(--pointerColor) 20px solid;
+        border-left: transparent calc(var(--adjacentSide) * 0.125 * 0.4) solid;
+        border-right: transparent calc(var(--adjacentSide) * 0.125 * 0.4) solid;
+        border-top: var(--pointerColor)
+          calc(var(--adjacentSide) * 0.125 * 0.4 * 2) solid;
         position: absolute;
         left: 50%;
-        top: -780%;
+        top: calc(-1 * var(--adjacentSide) + 5px);
         transform: translate(-50%, -50%);
         z-index: 99;
       }
@@ -95,7 +106,7 @@
         width: calc(var(--adjacentSide) * 0.6);
         position: absolute;
         left: 0;
-        bottom: 30px;
+        bottom: calc(var(--adjacentSide) * 0.15);
         text-overflow: ellipsis;
         transform: rotate(-90deg);
         transform-origin: 0 50%;
@@ -123,7 +134,7 @@
       }
       .function > input {
         height: 27px;
-        width: 200px;
+        width: var(--adjacentSide);
         padding: 0;
         padding-left: 5px;
         border: 0;
@@ -157,12 +168,12 @@
 
       .text > input {
         vertical-align: top;
+        width: calc(var(--adjacentSide) * 0.845);
         border: 0;
         padding: 0;
         padding-left: 5px;
         height: 21px;
         background-color: #faf9f5;
-        user-select: unset;
       }
 
       .text > .editComplete {
@@ -192,9 +203,10 @@
       .drawLots {
         padding: 5px;
         border: black 1px solid;
-        width: 287px;
-        height: 100px;
+        width: calc(var(--adjacentSide) * 1.435);
+        height: calc(var(--adjacentSide) * 0.5);
         border-radius: 4px;
+        overflow-y: scroll;
       }
       .drawLots > div {
         margin: 5px;
@@ -239,7 +251,7 @@
       document.querySelector('.add').addEventListener('click', clickAdd)
       function clickAdd() {
         // 新增文字框
-        if (flag !== 1) {
+        if (editFlag !== 1 && drawLotsFlag != 1) {
           // 編輯完成按鈕不顯示時
           let newText = document.createElement('div')
           newText.classList.add('text')
@@ -291,10 +303,13 @@
               '--oppositeSide',
               'calc(' + 1 + ' * var(--adjacentSide))'
             )
-            changeNumber[i].style.borderTop = '400px solid #fdeca6'
-            changeNumber[i].style.borderLeft = '200px solid #fdeca6'
-            changeNumber[i].style.borderRight = '200px solid #fdeca6'
-            rowText[0].style.bottom = '230px'
+            changeNumber[i].style.borderTop =
+              'calc(' + 2 + ' * var(--adjacentSide)) solid #fdeca6'
+            changeNumber[i].style.borderLeft =
+              'var(--adjacentSide) solid #fdeca6'
+            changeNumber[i].style.borderRight =
+              'var(--adjacentSide) solid #fdeca6'
+            rowText[0].style.bottom = 'calc(var(--adjacentSide) * 1.15)'
           } else if (part === 2) {
             // 設定transform
             changeNumber[i].style.transform =
@@ -306,13 +321,19 @@
               '--oppositeSide',
               'calc(' + 1 + ' * var(--adjacentSide))'
             )
-            changeNumber[0].style.borderTop = '200px solid #fdeca6'
-            changeNumber[0].style.borderLeft = '200px solid #fdeca6'
-            changeNumber[0].style.borderRight = '200px solid #fdeca6'
-            changeNumber[1].style.borderTop = '200px solid #ffca18'
-            changeNumber[1].style.borderLeft = '200px solid #ffca18'
-            changeNumber[1].style.borderRight = '200px solid #ffca18'
-            rowText[i].style.bottom = '30px'
+            changeNumber[0].style.borderTop =
+              'var(--adjacentSide) solid #fdeca6'
+            changeNumber[0].style.borderLeft =
+              'var(--adjacentSide) solid #fdeca6'
+            changeNumber[0].style.borderRight =
+              'var(--adjacentSide) solid #fdeca6'
+            changeNumber[1].style.borderTop =
+              'var(--adjacentSide) solid #ffca18'
+            changeNumber[1].style.borderLeft =
+              'var(--adjacentSide) solid #ffca18'
+            changeNumber[1].style.borderRight =
+              'var(--adjacentSide) solid #ffca18'
+            rowText[i].style.bottom = 'calc(var(--adjacentSide) * 0.15)'
           } else {
             // 設定transform
             changeNumber[i].style.transform =
@@ -332,7 +353,7 @@
                 Math.tan(((360 / part / 2) * Math.PI) / 180) +
                 ' * var(--adjacentSide))'
             )
-            rowText[i].style.bottom = '30px'
+            rowText[i].style.bottom = 'calc(var(--adjacentSide) * 0.15)'
 
             // 顏色
             // 除了前三個 如果為3n+1等分最後一個3n+1不改變顏色會跟1顏色相同不方便觀看
@@ -366,7 +387,11 @@
       // 目標
       document.querySelector('.textList').addEventListener('click', clickDelete)
       function clickDelete(e) {
-        if (e.target.classList.contains('delete') && flag !== 1) {
+        if (
+          e.target.classList.contains('delete') &&
+          editFlag !== 1 &&
+          drawLotsFlag != 1
+        ) {
           // 按下delete刪除文字框的父元素
           let deleteTriangle = document.querySelectorAll('.triangle')
           let deleteNumber =
@@ -388,7 +413,8 @@
 
       // 按下文字框後出現完成按鈕 按下完成編輯按鈕後將輸入的文字加入轉盤等份上並將焦點移出文字框
       // 目標
-      let flag = 0
+      // 正在編輯
+      let editFlag = 0
       document.addEventListener('click', clickText)
       function clickText(e) {
         if (document.querySelectorAll('.triangle').length !== 0) {
@@ -400,10 +426,11 @@
           if (
             e.target ===
               editComplete[i].parentNode.querySelector('.editText') &&
-            flag === 0
+            editFlag === 0 &&
+            drawLotsFlag != 1
           ) {
             editComplete[i].style.display = 'inline-block'
-            flag = 1
+            editFlag = 1
           } else if (e.target === editComplete[i]) {
             document
               .querySelectorAll('.triangle')
@@ -412,7 +439,7 @@
               ].querySelector('.rowText').innerHTML =
               e.target.parentNode.querySelector('.editText').value
             editComplete[i].style.display = 'none'
-            flag = 0
+            editFlag = 0
           } else {
             if (editComplete[i]) {
               if (
@@ -442,14 +469,28 @@
       document.querySelector('.start').addEventListener('click', clickStart)
       let rotateDeg = 0
       let rotateDegLast = 0
+      // 正在旋轉
+      let drawLotsFlag = 0
       function clickStart() {
-        if (flag !== 1) {
+        if (
+          editFlag !== 1 &&
+          drawLotsFlag != 1 &&
+          // 正在新增時不可旋轉
+          document.querySelector('.function>input').value === '' &&
+          document.querySelector('.turntableCircle').style.display !== 'none'
+        ) {
+          drawLotsFlag = 1
+          let allInput = document.querySelectorAll('input')
+          for (i = 0; i < allInput.length; i++) {
+            // 旋轉時不可輸入
+            allInput[i].disabled = true
+          }
           let turntableCircle = document.querySelector('.turntableCircle')
           let turntableCircleStyle = turntableCircle.style
           rotateDeg = rotateDegLast + 1080 + Math.floor(Math.random() * 360)
           rotateDegLast = rotateDeg
           turntableCircleStyle.transform = 'rotate(' + rotateDeg + 'deg)'
-          turntableCircleStyle.transition = '3s'
+          turntableCircleStyle.transition = 'transform 3s'
         }
       }
 
@@ -459,47 +500,70 @@
         .querySelector('.turntableCircle')
         .addEventListener('transitionend', clickPosition, false)
       function clickPosition() {
-        let t = document.querySelectorAll('.triangle')
-        let tr = document.querySelector('.turntableCircle').style.transform
-        let c = document.querySelectorAll('.drawLots>div')
+        let partAll = document.querySelectorAll('.triangle')
+        let turntableCircleRotate =
+          document.querySelector('.turntableCircle').style.transform
+        let drawLotsNumber = document.querySelectorAll('.drawLots>div')
         if (
-          (tr.slice(7, tr.length - 4) % 360) - 360 / t.length / 2 < 0 ||
-          (tr.slice(7, tr.length - 4) % 360) - 360 / t.length / 2 >
-            (360 / t.length) * (t.length - 1)
+          (turntableCircleRotate.slice(7, turntableCircleRotate.length - 4) %
+            360) -
+            360 / partAll.length / 2 <
+            0 ||
+          (turntableCircleRotate.slice(7, turntableCircleRotate.length - 4) %
+            360) -
+            360 / partAll.length / 2 >
+            (360 / partAll.length) * (partAll.length - 1)
         ) {
-          console.log(t[t.length - 1].childNodes[0].innerHTML)
+          console.log(partAll[partAll.length - 1].childNodes[0].innerHTML)
           let drawLots = document.createElement('div')
           drawLots.innerHTML =
             `<span>` +
-            (c.length + 1) +
+            (drawLotsNumber.length + 1) +
             `. ` +
             `</span>` +
-            t[t.length - 1].childNodes[0].innerHTML
+            partAll[partAll.length - 1].childNodes[0].innerHTML
           document.querySelector('.drawLots').appendChild(drawLots)
         } else {
-          for (i = 0; i < t.length; i++) {
+          for (i = 0; i < partAll.length; i++) {
             if (
-              (tr.slice(7, tr.length - 4) % 360) -
-                360 / t.length / 2 -
-                (360 / t.length) * i >
+              (turntableCircleRotate.slice(
+                7,
+                turntableCircleRotate.length - 4
+              ) %
+                360) -
+                360 / partAll.length / 2 -
+                (360 / partAll.length) * i >
                 0 &&
-              (tr.slice(7, tr.length - 4) % 360) -
-                360 / t.length / 2 -
-                (360 / t.length) * i <
-                360 / t.length
+              (turntableCircleRotate.slice(
+                7,
+                turntableCircleRotate.length - 4
+              ) %
+                360) -
+                360 / partAll.length / 2 -
+                (360 / partAll.length) * i <
+                360 / partAll.length
             ) {
-              console.log(t[t.length - 1 - i - 1].childNodes[0].innerHTML)
+              console.log(
+                partAll[partAll.length - 1 - i - 1].childNodes[0].innerHTML
+              )
               let drawLots = document.createElement('div')
               drawLots.innerHTML =
                 `<span>` +
-                (c.length + 1) +
+                (drawLotsNumber.length + 1) +
                 `. ` +
                 `</span>` +
-                t[t.length - 1 - i - 1].childNodes[0].innerHTML
+                partAll[partAll.length - 1 - i - 1].childNodes[0].innerHTML
               document.querySelector('.drawLots').appendChild(drawLots)
             }
           }
         }
+
+        let allInput = document.querySelectorAll('input')
+        for (i = 0; i < allInput.length; i++) {
+          // 旋轉結束可以輸入
+          allInput[i].disabled = false
+        }
+        drawLotsFlag = 0
       }
     </script>
   </body>
