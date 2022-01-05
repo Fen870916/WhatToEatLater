@@ -248,7 +248,7 @@
         </div> -->
       </div>
 
-      <div class="drawLotsList">
+      <div class="drawLotsList" style="display: none">
         抽中
         <div class="drawLots"></div>
       </div>
@@ -522,7 +522,6 @@
             360 / partAll.length / 2 >
             (360 / partAll.length) * (partAll.length - 1)
         ) {
-          console.log(partAll[partAll.length - 1].childNodes[0].innerHTML)
           let drawLots = document.createElement('div')
           drawLots.innerHTML =
             `<span>` +
@@ -564,6 +563,11 @@
               document.querySelector('.drawLots').appendChild(drawLots)
             }
           }
+        }
+        let drawLotsdisplay = document.querySelectorAll('.drawLots>div')
+        console.log(drawLotsdisplay.length)
+        if (drawLotsdisplay.length > 0) {
+          document.querySelector('.drawLotsList').style.display = 'block'
         }
 
         let allInput = document.querySelectorAll('input')
