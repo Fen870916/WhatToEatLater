@@ -25,17 +25,6 @@
         --pointerColor: red;
       }
 
-      @media screen and (max-width: 500px) {
-        :root {
-          --adjacentSide: 150px;
-        }
-      }
-      @media screen and (max-width: 280px) {
-        :root {
-          --adjacentSide: 125px;
-        }
-      }
-
       .title {
         text-align: center;
         margin-top: 30px;
@@ -168,7 +157,7 @@
 
       .text > input {
         vertical-align: top;
-        width: calc(var(--adjacentSide) * 0.845);
+        width: calc(var(--adjacentSide) * 1.16335);
         border: 0;
         padding: 0;
         padding-left: 5px;
@@ -198,13 +187,13 @@
         padding: 0 5px;
       }
       .drawLotsList {
-        margin: 20px;
+        margin: calc(var(--adjacentSide) * 0.1);
       }
       .drawLots {
         padding: 5px;
         border: black 1px solid;
-        width: calc(var(--adjacentSide) * 1.435);
-        height: calc(var(--adjacentSide) * 0.5);
+        width: calc(var(--adjacentSide) * 1.3817);
+        height: calc(var(--adjacentSide) * 0.44);
         border-radius: 4px;
         overflow-y: scroll;
       }
@@ -213,6 +202,23 @@
       }
       .drawLots > div > span {
         font-weight: bold;
+      }
+
+      @media screen and (max-width: 500px) {
+        :root {
+          --adjacentSide: 150px;
+        }
+        .whatToEatAllDay {
+          margin-top: 52.5px;
+        }
+      }
+      @media screen and (max-width: 280px) {
+        :root {
+          --adjacentSide: 125px;
+        }
+        .whatToEatAllDay {
+          margin-top: 43.75px;
+        }
       }
     </style>
   </head>
