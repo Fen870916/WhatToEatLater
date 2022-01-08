@@ -1,5 +1,6 @@
 <!-- 目標:刪除文字框後轉盤等份也要減少 -->
 <!-- 目標:完成點擊其他地方出現選擇提示 -->
+<!-- scrollBottom=0 保持在底部 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,19 +11,30 @@
     <title>轉盤</title>
     <link rel="stylesheet" href="./css/reset.css" />
     <style>
-      body {
-        background: linear-gradient(
-          270deg,
-          rgba(100, 120, 255, 0.9) 0%,
-          rgba(255, 221, 171, 0.8) 83%
-        );
-        color: black;
-      }
       :root {
         --transformDeg: calc(360deg / 1);
         --adjacentSide: 200px;
         --oppositeSide: calc(400 * var(--adjacentSide));
         --pointerColor: red;
+      }
+      body {
+        background-color: #4c4556;
+        color: white;
+      }
+
+      ::-webkit-scrollbar-track {
+        border-radius: 50%;
+        background-color: transparent;
+      }
+
+      ::-webkit-scrollbar {
+        width: 2px;
+        background-color: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background-color: white;
       }
 
       .title {
@@ -31,7 +43,7 @@
         font-size: 28px;
       }
 
-      .whatToEatAllDay {
+      .whatToEatLater {
         margin-top: 70px;
         position: relative;
         display: flex;
@@ -78,7 +90,6 @@
         top: calc(var(--adjacentSide) + 1px);
         transform: translate(-50%, -50%);
         border-radius: 50%;
-        z-index: 9;
       }
       .pointer {
         border-left: transparent calc(var(--adjacentSide) * 0.125 * 0.4) solid;
@@ -89,7 +100,6 @@
         left: 50%;
         top: calc(-1 * var(--adjacentSide) + 5px);
         transform: translate(-50%, -50%);
-        z-index: 99;
       }
       .triangle > .rowText {
         width: calc(var(--adjacentSide) * 0.6);
@@ -103,26 +113,26 @@
         overflow: hidden;
         white-space: nowrap;
         font-size: 16px;
+        color: black;
       }
 
       .function {
         margin-top: calc(var(--adjacentSide) * 0.365);
       }
       .function > button {
-        background-color: #f2cecf;
         padding: 5px;
         border: 0;
         border-radius: 4px;
       }
 
       .function > .add {
-        background-color: #295ea4;
+        background-color: #f6c026;
       }
       .function > .start {
-        background-color: #ffcb4f;
+        background-color: #a0d3f9;
       }
       .function > input {
-        height: 27px;
+        height: 26px;
         width: var(--adjacentSide);
         padding: 0;
         padding-left: 5px;
@@ -133,13 +143,16 @@
       }
 
       .textList {
-        height: 103px;
+        height: 84px;
         margin: 5px 0;
-        color: black;
+        color: white;
         overflow-y: auto;
       }
+      .textList > *:not(:last-of-type) {
+        margin-bottom: 10px;
+      }
       .textList > * {
-        margin: 10px 0;
+        margin-right: 1px;
       }
       .text {
         font-size: 0px;
@@ -149,22 +162,23 @@
         height: 21px;
         width: 14px;
         display: inline-block;
-        background-color: #f2cecf;
+        background-color: #295ea4;
         font-size: 14px;
         line-height: 21px;
         text-align: center;
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
+        color: white;
       }
 
       .text > input {
         vertical-align: top;
-        width: calc(var(--adjacentSide) * 1.16335);
+        width: calc(var(--adjacentSide) * 1.16335 - 1px);
         border: 0;
         padding: 0;
         padding-left: 5px;
         height: 21px;
-        background-color: #faf9f5;
+        background-color: white;
       }
 
       .text > .editComplete {
@@ -195,12 +209,12 @@
         padding: 5px;
         border: black 1px solid;
         width: calc(var(--adjacentSide) * 1.3817);
-        height: calc(var(--adjacentSide) * 0.44);
+        height: 58px;
         border-radius: 4px;
         overflow-y: auto;
       }
-      .drawLots > div {
-        margin: 5px;
+      .drawLots > div:not(:last-of-type) {
+        margin-bottom: 5px;
       }
       .drawLots > div > span {
         font-weight: bold;
@@ -210,7 +224,7 @@
         :root {
           --adjacentSide: 150px;
         }
-        .whatToEatAllDay {
+        .whatToEatLater {
           margin-top: 52.5px;
         }
       }
@@ -218,7 +232,7 @@
         :root {
           --adjacentSide: 125px;
         }
-        .whatToEatAllDay {
+        .whatToEatLater {
           margin-top: 43.75px;
         }
       }
@@ -226,7 +240,7 @@
   </head>
   <body>
     <div class="title">等一下吃什麼</div>
-    <div class="whatToEatAllDay">
+    <div class="whatToEatLater">
       <div class="turntableCircle" style="display: none"></div>
 
       <div class="centerCircle" style="display: none">
