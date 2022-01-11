@@ -291,7 +291,7 @@
             `<div class="number">` +
             (textNumber.length + 1) +
             `</div>
-            <input class="editText" type="text" name="" id="" />
+            <input class="editText" type="text" name="" id="" disabled/>
             <button class="editComplete" style="display:none">編輯完成</button>
             <button class="delete">刪除</button>`
 
@@ -445,8 +445,8 @@
       }
 
       // 按下文字框後出現完成按鈕 按下完成編輯按鈕後將輸入的文字加入轉盤等份上並將焦點移出文字框
-      // 目標
-      // 正在編輯
+
+      // editFlag = 1,正在編輯
       let editFlag = 0
       document.addEventListener('click', clickText)
       function clickText(e) {
@@ -464,6 +464,8 @@
           ) {
             editComplete[i].style.display = 'inline-block'
             editFlag = 1
+            e.target.disabled = false
+            e.target.focus()
           } else if (e.target === editComplete[i]) {
             document
               .querySelectorAll('.triangle')
@@ -473,6 +475,7 @@
               e.target.parentNode.querySelector('.editText').value
             editComplete[i].style.display = 'none'
             editFlag = 0
+            e.target.parentNode.querySelector('.editText').disabled = true
           } else {
             if (editComplete[i]) {
               if (
