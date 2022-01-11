@@ -441,6 +441,10 @@
             // console.log(number[i].innerHTML)
           }
           addTriangle(number.length)
+          if (number.length <= 0) {
+            document.querySelector('.turntableCircle').style.display = 'none'
+            document.querySelector('.centerCircle').style.display = 'none'
+          }
         }
       }
 
