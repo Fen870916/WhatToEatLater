@@ -16,15 +16,28 @@
         --adjacentSide: 200px;
         --oppositeSide: calc(400 * var(--adjacentSide));
         --pointerColor: red;
+        --backgroundColor: white;
+        --wordColor: black;
+        --triangleColor1: #a4a4be;
+        --triangleColor2: #fbd276;
+        --triangleColor3: #f0b394;
+        --functionInputColor: #fbd276;
+        --addColor: #a4a4be;
+        --startColor: #f0b394;
+        --numberColor: #a4a4be;
+        --textInputColor: #fbd276;
+        --editCompleteColor: #7d9480;
+        --deleteColor: #f0b394;
+        --drawLotsColor: #a4a4be;
       }
       body {
-        background-color: #4c4556;
-        color: white;
+        background-color: var(--backgroundColor);
+        color: var(--wordColor);
       }
 
       ::-webkit-scrollbar-track {
         border-radius: 50%;
-        background-color: transparent;
+        background-color: rgba(90, 90, 90, 0.376);
       }
 
       ::-webkit-scrollbar {
@@ -41,6 +54,7 @@
         text-align: center;
         margin-top: 30px;
         font-size: 28px;
+        font-weight: bold;
       }
 
       .whatToEatLater {
@@ -70,18 +84,7 @@
         transform-origin: 50% 100%;
       }
 
-      .triangle:nth-of-type(3n-2) {
-        border-top: var(--adjacentSide) solid #ff7f27;
-      }
-      .triangle:nth-of-type(3n-1) {
-        border-top: var(--adjacentSide) solid #ffca18;
-      }
-      .triangle:nth-of-type(3n) {
-        border-top: var(--adjacentSide) solid #fdeca6;
-      }
-
       .centerCircle {
-        background-color: black;
         width: calc(var(--adjacentSide) * 0.125);
         height: calc(var(--adjacentSide) * 0.125);
         background-color: var(--pointerColor);
@@ -113,7 +116,7 @@
         overflow: hidden;
         white-space: nowrap;
         font-size: 16px;
-        color: black;
+        color: var(--wordColor);
       }
 
       .function {
@@ -126,10 +129,12 @@
       }
 
       .function > .add {
-        background-color: #f6c026;
+        background-color: var(--addColor);
+        font-weight: bold;
       }
       .function > .start {
-        background-color: #a0d3f9;
+        background-color: var(--startColor);
+        font-weight: bold;
       }
       .function > input {
         height: 26px;
@@ -140,12 +145,13 @@
         border-radius: 4px;
         vertical-align: top;
         border: 1px solid black;
+        background-color: var(--functionInputColor);
       }
 
       .textList {
         height: 84px;
         margin: 5px 0;
-        color: white;
+        color: var(--wordColor);
         overflow-y: auto;
       }
       .textList > *:not(:last-of-type) {
@@ -162,13 +168,14 @@
         height: 21px;
         width: 14px;
         display: inline-block;
-        background-color: #295ea4;
+        background-color: var(--numberColor);
         font-size: 14px;
         line-height: 21px;
         text-align: center;
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
-        color: white;
+        color: var(--wordColor);
+        font-weight: bold;
       }
 
       .text > input {
@@ -178,7 +185,7 @@
         padding: 0;
         padding-left: 5px;
         height: 21px;
-        background-color: white;
+        background-color: var(--textInputColor);
       }
 
       .text > .editComplete {
@@ -186,7 +193,7 @@
         border: 0;
         padding: 0;
         vertical-align: top;
-        background-color: #97d8bd;
+        background-color: var(--editCompleteColor);
       }
 
       .text > .delete {
@@ -196,7 +203,8 @@
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
         vertical-align: top;
-        background-color: #f66049;
+        background-color: var(--deleteColor);
+        font-weight: bold;
       }
       .text > .editComplete,
       .text > .delete {
@@ -212,6 +220,7 @@
         height: 58px;
         border-radius: 4px;
         overflow-y: auto;
+        background-color: var(--drawLotsColor);
       }
       .drawLots > div:not(:last-of-type) {
         margin-bottom: 5px;
@@ -326,11 +335,13 @@
               'calc(' + 1 + ' * var(--adjacentSide))'
             )
             changeNumber[i].style.borderTop =
-              'calc(' + 2 + ' * var(--adjacentSide)) solid #fdeca6'
+              'calc(' +
+              2 +
+              ' * var(--adjacentSide)) solid var(--triangleColor1)'
             changeNumber[i].style.borderLeft =
-              'var(--adjacentSide) solid #fdeca6'
+              'var(--adjacentSide) solid var(--triangleColor1)'
             changeNumber[i].style.borderRight =
-              'var(--adjacentSide) solid #fdeca6'
+              'var(--adjacentSide) solid var(--triangleColor1)'
             rowText[0].style.bottom = 'calc(var(--adjacentSide) * 1.15)'
           } else if (part === 2) {
             // 設定transform
@@ -344,17 +355,17 @@
               'calc(' + 1 + ' * var(--adjacentSide))'
             )
             changeNumber[0].style.borderTop =
-              'var(--adjacentSide) solid #fdeca6'
+              'var(--adjacentSide) solid var(--triangleColor1)'
             changeNumber[0].style.borderLeft =
-              'var(--adjacentSide) solid #fdeca6'
+              'var(--adjacentSide) solid var(--triangleColor1)'
             changeNumber[0].style.borderRight =
-              'var(--adjacentSide) solid #fdeca6'
+              'var(--adjacentSide) solid var(--triangleColor1)'
             changeNumber[1].style.borderTop =
-              'var(--adjacentSide) solid #ffca18'
+              'var(--adjacentSide) solid var(--triangleColor2)'
             changeNumber[1].style.borderLeft =
-              'var(--adjacentSide) solid #ffca18'
+              'var(--adjacentSide) solid var(--triangleColor2)'
             changeNumber[1].style.borderRight =
-              'var(--adjacentSide) solid #ffca18'
+              'var(--adjacentSide) solid var(--triangleColor2)'
             rowText[i].style.bottom = 'calc(var(--adjacentSide) * 0.15)'
           } else {
             // 設定transform
@@ -381,17 +392,17 @@
             // 除了前三個 如果為3n+1等分最後一個3n+1不改變顏色會跟1顏色相同不方便觀看
             if (i + 1 > 3 && part % 3 === 1) {
               changeNumber[part - 1].style.borderTop =
-                'var(--adjacentSide) solid #ffca18'
+                'var(--adjacentSide) solid var(--triangleColor2)'
             } else {
               if ((i + 1) % 3 === 1) {
                 changeNumber[i].style.borderTop =
-                  'var(--adjacentSide) solid #fdeca6'
+                  'var(--adjacentSide) solid var(--triangleColor1)'
               } else if ((i + 1) % 3 === 2) {
                 changeNumber[i].style.borderTop =
-                  'var(--adjacentSide) solid #ffca18'
+                  'var(--adjacentSide) solid var(--triangleColor2)'
               } else if ((i + 1) % 3 === 0) {
                 changeNumber[i].style.borderTop =
-                  'var(--adjacentSide) solid #ff7f27'
+                  'var(--adjacentSide) solid var(--triangleColor3)'
               }
             }
           }
