@@ -520,14 +520,22 @@
           document.querySelector('.turntableCircle').style.display !== 'none'
         ) {
           drawLotsFlag = 1
-          let allInput = document.querySelectorAll('input')
-          for (i = 0; i < allInput.length; i++) {
-            // 旋轉時不可輸入
-            allInput[i].disabled = true
-          }
+          document.querySelectorAll('.function>input').disabled = true
           let turntableCircle = document.querySelector('.turntableCircle')
           let turntableCircleStyle = turntableCircle.style
           rotateDeg = rotateDegLast + 1080 + Math.floor(Math.random() * 360)
+          if (
+            rotateDeg %
+              (360 / document.querySelectorAll('.triangle').length / 2) ===
+              0 &&
+            (rotateDeg /
+              (360 / document.querySelectorAll('.triangle').length / 2)) %
+              2 !==
+              0
+          ) {
+            console.log(rotateDeg)
+            rotateDeg = rotateDeg + 1
+          }
           rotateDegLast = rotateDeg
           turntableCircleStyle.transform = 'rotate(' + rotateDeg + 'deg)'
           turntableCircleStyle.transition = 'transform 3s'
@@ -582,9 +590,6 @@
                 (360 / partAll.length) * i <
                 360 / partAll.length
             ) {
-              console.log(
-                partAll[partAll.length - 1 - i - 1].childNodes[0].innerHTML
-              )
               let drawLots = document.createElement('div')
               drawLots.innerHTML =
                 `<span>` +
@@ -597,16 +602,11 @@
           }
         }
         let drawLotsdisplay = document.querySelectorAll('.drawLots>div')
-        console.log(drawLotsdisplay.length)
         if (drawLotsdisplay.length > 0) {
           document.querySelector('.drawLotsList').style.display = 'block'
         }
 
-        let allInput = document.querySelectorAll('input')
-        for (i = 0; i < allInput.length; i++) {
-          // 旋轉結束可以輸入
-          allInput[i].disabled = false
-        }
+        document.querySelectorAll('.function>input').disabled = false
         drawLotsFlag = 0
       }
     </script>
