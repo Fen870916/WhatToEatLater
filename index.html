@@ -28,7 +28,7 @@
         --textInputColor: #fbd276;
         --editCompleteColor: #7d9480;
         --deleteColor: #f0b394;
-        --drawLotsColor: #a4a4be;
+        --drawLotsColor: white;
       }
       body {
         background-color: var(--backgroundColor);
@@ -37,7 +37,7 @@
 
       ::-webkit-scrollbar-track {
         border-radius: 50%;
-        background-color: rgba(90, 90, 90, 0.376);
+        background-color: transparent;
       }
 
       ::-webkit-scrollbar {
@@ -47,7 +47,7 @@
 
       ::-webkit-scrollbar-thumb {
         border-radius: 2px;
-        background-color: white;
+        background-color: rgba(90, 90, 90, 0.575);
       }
 
       .title {
@@ -520,7 +520,7 @@
           document.querySelector('.turntableCircle').style.display !== 'none'
         ) {
           drawLotsFlag = 1
-          document.querySelectorAll('.function>input').disabled = true
+          document.querySelector('.function>input').disabled = true
           let turntableCircle = document.querySelector('.turntableCircle')
           let turntableCircleStyle = turntableCircle.style
           rotateDeg = rotateDegLast + 1080 + Math.floor(Math.random() * 360)
@@ -606,7 +606,7 @@
           document.querySelector('.drawLotsList').style.display = 'block'
         }
 
-        document.querySelectorAll('.function>input').disabled = false
+        document.querySelector('.function>input').disabled = false
         drawLotsFlag = 0
       }
     </script>
