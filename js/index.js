@@ -30,7 +30,6 @@ function clickAdd() {
       `<div class="rowText">` + newText.childNodes[2].value + `</div>`
     document.querySelector('.turntableCircle').appendChild(triangle)
 
-    // console.log(textNumber.length + 1)
     addTriangle(textNumber.length + 1)
     document.querySelector('.function>input').value = ''
   }
@@ -38,7 +37,6 @@ function clickAdd() {
 
 function addTriangle(part) {
   let changeNumber = document.querySelectorAll('.triangle')
-  // console.log(changeNumber.length)
   let triangleNumber = document.querySelectorAll('.number')
   let rowText = document.querySelectorAll('.rowText')
 
@@ -49,7 +47,6 @@ function addTriangle(part) {
         'rotate(calc(' +
         triangleNumber[i].innerHTML +
         ' * var(--transformDeg)))'
-      //tan(180)怪怪的
       changeNumber[i].style.setProperty(
         '--oppositeSide',
         'calc(' + 1 + ' * var(--adjacentSide))'
@@ -67,7 +64,6 @@ function addTriangle(part) {
         'rotate(calc(' +
         triangleNumber[i].innerHTML +
         ' * var(--transformDeg)))'
-      //tan(90)不存在
       changeNumber[i].style.setProperty(
         '--oppositeSide',
         'calc(' + 1 + ' * var(--adjacentSide))'
@@ -125,16 +121,19 @@ function addTriangle(part) {
     }
     //角度
     //改變css中transformDeg變數
-    // console.log('p:' + p)
     changeNumber[i].style.setProperty(
       '--transformDeg',
       'calc(360deg /' + part + ')'
     )
   }
+  // 捲軸保持在底部
+  if (changeNumber.length > 3) {
+    document.querySelector('.textList').scrollTop =
+      document.querySelector('.textList').scrollHeight
+  }
 }
 
 // 按下delete並刪除文字框的父元素 即.text
-// 目標
 document.querySelector('.textList').addEventListener('click', clickDelete)
 function clickDelete(e) {
   if (
@@ -152,9 +151,7 @@ function clickDelete(e) {
     let number = document.querySelectorAll('.number')
     let trianglePart = number.length
     for (i = 0; i < number.length; i++) {
-      // console.log(number.length)
       number[i].innerHTML = i + 1
-      // console.log(number[i].innerHTML)
     }
     addTriangle(number.length)
     if (number.length <= 0) {
@@ -245,7 +242,6 @@ function clickStart() {
         2 !==
         0
     ) {
-      console.log(rotateDeg)
       rotateDeg = rotateDeg + 1
     }
     rotateDegLast = rotateDeg
@@ -255,7 +251,6 @@ function clickStart() {
 }
 
 //抽中
-
 document
   .querySelector('.turntableCircle')
   .addEventListener('transitionend', clickPosition, false)
@@ -312,4 +307,9 @@ function clickPosition() {
 
   document.querySelector('.function>input').disabled = false
   drawLotsFlag = 0
+  // 捲軸保持在底部
+  if (document.querySelectorAll('.drawLots>div').length > 3) {
+    document.querySelector('.drawLots').scrollTop =
+      document.querySelector('.drawLots').scrollHeight
+  }
 }
