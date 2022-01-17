@@ -1,0 +1,234 @@
+:root {
+  --transformDeg: calc(360deg / 1);
+  --adjacentSide: 200px;
+  --oppositeSide: calc(400 * var(--adjacentSide));
+  --pointerColor: red;
+  --backgroundColor: white;
+  --wordColor: black;
+  --triangleColor1: #a4a4be;
+  --triangleColor2: #fbd276;
+  --triangleColor3: #f0b394;
+  --functionInputColor: #fbd276;
+  --addColor: #a4a4be;
+  --startColor: #f0b394;
+  --numberColor: #a4a4be;
+  --textInputColor: #fbd276;
+  --editCompleteColor: #7d9480;
+  --deleteColor: #f0b394;
+  --drawLotsColor: white;
+}
+body {
+  background-color: var(--backgroundColor);
+  color: var(--wordColor);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: rgba(90, 90, 90, 0.575);
+}
+
+.title {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.whatToEatLater {
+  margin-top: 70px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.turntableCircle {
+  border-radius: 50%;
+  width: calc(2 * var(--adjacentSide));
+  height: calc(2 * var(--adjacentSide));
+  overflow: hidden;
+  position: relative;
+  border: black 1px solid;
+}
+
+.triangle {
+  position: absolute;
+  left: calc(var(--oppositeSide) * -1 + var(--adjacentSide));
+  top: 0;
+  border-top: var(--adjacentSide) solid var(--adjacentSideColor);
+  border-left: var(--oppositeSide) solid transparent;
+  border-right: var(--oppositeSide) solid transparent;
+  transform-origin: 50% 100%;
+}
+
+.centerCircle {
+  width: calc(var(--adjacentSide) * 0.125);
+  height: calc(var(--adjacentSide) * 0.125);
+  background-color: var(--pointerColor);
+  position: absolute;
+  left: 50%;
+  top: calc(var(--adjacentSide) + 1px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+.pointer {
+  border-left: transparent calc(var(--adjacentSide) * 0.125 * 0.4) solid;
+  border-right: transparent calc(var(--adjacentSide) * 0.125 * 0.4) solid;
+  border-top: var(--pointerColor) calc(var(--adjacentSide) * 0.125 * 0.4 * 2)
+    solid;
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--adjacentSide) + 5px);
+  transform: translate(-50%, -50%);
+}
+.triangle > .rowText {
+  width: calc(var(--adjacentSide) * 0.6);
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--adjacentSide) * 0.15);
+  text-overflow: ellipsis;
+  transform: rotate(-90deg);
+  transform-origin: 0 50%;
+  text-align: right;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 16px;
+  color: var(--wordColor);
+}
+
+.function {
+  margin-top: calc(var(--adjacentSide) * 0.365);
+}
+.function > button {
+  padding: 5px;
+  border: 0;
+  border-radius: 4px;
+}
+
+.function > .add {
+  background-color: var(--addColor);
+  font-weight: bold;
+}
+.function > .start {
+  background-color: var(--startColor);
+  font-weight: bold;
+}
+.function > input {
+  height: 26px;
+  width: var(--adjacentSide);
+  padding: 0;
+  padding-left: 5px;
+  border: 0;
+  border-radius: 4px;
+  vertical-align: top;
+  border: 1px solid black;
+  background-color: var(--functionInputColor);
+}
+
+.textList {
+  height: 84px;
+  margin: 5px 0;
+  color: var(--wordColor);
+  overflow-y: auto;
+}
+.textList > *:not(:last-of-type) {
+  margin-bottom: 10px;
+}
+.textList > * {
+  margin-right: 1px;
+}
+.text {
+  font-size: 0px;
+}
+
+.number {
+  height: 21px;
+  width: 14px;
+  display: inline-block;
+  background-color: var(--numberColor);
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  color: var(--wordColor);
+  font-weight: bold;
+}
+
+.text > input {
+  vertical-align: top;
+  width: calc(var(--adjacentSide) * 1.16335 - 1px);
+  border: 0;
+  padding: 0;
+  padding-left: 5px;
+  height: 21px;
+  background-color: var(--textInputColor);
+}
+
+.text > .editComplete {
+  height: 21px;
+  border: 0;
+  padding: 0;
+  vertical-align: top;
+  background-color: var(--editCompleteColor);
+}
+
+.text > .delete {
+  height: 21px;
+  border: 0;
+  padding: 0;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  vertical-align: top;
+  background-color: var(--deleteColor);
+  font-weight: bold;
+}
+.text > .editComplete,
+.text > .delete {
+  padding: 0 5px;
+}
+.drawLotsList {
+  margin: calc(var(--adjacentSide) * 0.1);
+}
+.drawLots {
+  padding: 5px;
+  border: black 1px solid;
+  width: calc(var(--adjacentSide) * 1.3817);
+  height: 58px;
+  border-radius: 4px;
+  overflow-y: auto;
+  background-color: var(--drawLotsColor);
+}
+.drawLots > div:not(:last-of-type) {
+  margin-bottom: 5px;
+}
+.drawLots > div > span {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 500px) {
+  :root {
+    --adjacentSide: 150px;
+  }
+  .whatToEatLater {
+    margin-top: 52.5px;
+  }
+}
+@media screen and (max-width: 280px) {
+  :root {
+    --adjacentSide: 125px;
+  }
+  .whatToEatLater {
+    margin-top: 43.75px;
+  }
+}
