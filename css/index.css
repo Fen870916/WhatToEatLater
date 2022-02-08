@@ -45,7 +45,7 @@ body {
 }
 
 .whatToEatLater {
-  margin-top: 70px;
+  margin-top: 50px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -107,25 +107,40 @@ body {
 }
 
 .function {
-  margin-top: calc(var(--adjacentSide) * 0.365);
+  margin-top: calc(var(--adjacentSide) * 0.2);
+  z-index: 99999;
+  text-align: right;
 }
-.function > button {
+
+.function > div:first-of-type {
+  margin-bottom: 5px;
+}
+
+.function > div > button,
+.function > div > input {
+  font-size: 16px;
+}
+.function > div > button {
   padding: 5px;
   border: 0;
   border-radius: 4px;
 }
 
-.function > .add {
+.function > div > .add {
   background-color: var(--addColor);
   font-weight: bold;
 }
-.function > .start {
+.function > div > .start {
   background-color: var(--startColor);
   font-weight: bold;
 }
-.function > input {
-  height: 26px;
-  width: var(--adjacentSide);
+.function > div > .reset {
+  background-color: var(--editCompleteColor);
+  font-weight: bold;
+}
+.function > div > input {
+  height: 29px;
+  width: calc(var(--adjacentSide) * 1.16 + 7px);
   padding: 0;
   padding-left: 5px;
   border: 0;
@@ -136,8 +151,8 @@ body {
 }
 
 .textList {
-  height: 84px;
-  margin: 5px 0;
+  height: 93px;
+  margin: 10px 0;
   color: var(--wordColor);
   overflow-y: auto;
 }
@@ -151,13 +166,23 @@ body {
   font-size: 0px;
 }
 
+.text > input,
+.text > .editComplete,
+.text > .delete {
+  height: 24px;
+  font-size: 16px;
+  border: 0;
+  padding: 0;
+  vertical-align: top;
+}
+
 .number {
-  height: 21px;
+  height: 24px;
+  font-size: 16px;
   width: 14px;
   display: inline-block;
   background-color: var(--numberColor);
-  font-size: 14px;
-  line-height: 21px;
+  line-height: 24px;
   text-align: center;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
@@ -166,30 +191,19 @@ body {
 }
 
 .text > input {
-  vertical-align: top;
-  width: calc(var(--adjacentSide) * 1.16335 - 1px);
-  border: 0;
-  padding: 0;
+  width: calc(var(--adjacentSide) * 1.16 - 1px);
+
   padding-left: 5px;
-  height: 21px;
   background-color: var(--textInputColor);
 }
 
 .text > .editComplete {
-  height: 21px;
-  border: 0;
-  padding: 0;
-  vertical-align: top;
   background-color: var(--editCompleteColor);
 }
 
 .text > .delete {
-  height: 21px;
-  border: 0;
-  padding: 0;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
-  vertical-align: top;
   background-color: var(--deleteColor);
   font-weight: bold;
 }
@@ -203,7 +217,7 @@ body {
 .drawLots {
   padding: 5px;
   border: black 1px solid;
-  width: calc(var(--adjacentSide) * 1.3817);
+  width: calc(var(--adjacentSide) * 1.16 + 53px);
   height: 58px;
   border-radius: 4px;
   overflow-y: auto;

@@ -3,7 +3,9 @@ document.querySelector('.add').addEventListener('click', clickAdd)
 function clickAdd() {
   // 新增文字框
   if (editFlag !== 1 && drawLotsFlag != 1) {
-    if (document.querySelector('.function>input').value.trim().length !== 0) {
+    if (
+      document.querySelector('.function>div>input').value.trim().length !== 0
+    ) {
       // 編輯完成按鈕不顯示時
       let newText = document.createElement('div')
       newText.classList.add('text')
@@ -17,8 +19,9 @@ function clickAdd() {
       <button class="delete">刪除</button>`
 
       // 將在輸入框輸入的文字加入文字框中
-      newText.childNodes[2].value =
-        document.querySelector('.function>input').value
+      newText.childNodes[2].value = document.querySelector(
+        '.function>div>input'
+      ).value
 
       document.querySelector('.textList').appendChild(newText)
 
@@ -32,10 +35,10 @@ function clickAdd() {
       document.querySelector('.turntableCircle').appendChild(triangle)
 
       addTriangle(textNumber.length + 1)
-      document.querySelector('.function>input').value = ''
+      document.querySelector('.function>div>input').value = ''
     } else {
       alert('請輸入文字')
-      document.querySelector('.function>input').value = ''
+      document.querySelector('.function>div>input').value = ''
     }
   }
 }
@@ -232,11 +235,11 @@ function clickStart() {
     editFlag !== 1 &&
     drawLotsFlag != 1 &&
     // 正在新增時不可旋轉
-    document.querySelector('.function>input').value === '' &&
+    document.querySelector('.function>div>input').value === '' &&
     document.querySelector('.turntableCircle').style.display !== 'none'
   ) {
     drawLotsFlag = 1
-    document.querySelector('.function>input').disabled = true
+    document.querySelector('.function>div>input').disabled = true
     let turntableCircle = document.querySelector('.turntableCircle')
     let turntableCircleStyle = turntableCircle.style
     rotateDeg = rotateDegLast + 1080 + Math.floor(Math.random() * 360)
@@ -310,11 +313,40 @@ function clickPosition() {
     document.querySelector('.drawLotsList').style.display = 'block'
   }
 
-  document.querySelector('.function>input').disabled = false
+  document.querySelector('.function>div>input').disabled = false
   drawLotsFlag = 0
   // 捲軸保持在底部
   if (document.querySelectorAll('.drawLots>div').length > 3) {
     document.querySelector('.drawLots').scrollTop =
       document.querySelector('.drawLots').scrollHeight
+  }
+}
+
+document
+  .querySelector('.function>div>.reset')
+  .addEventListener('click', clickReset)
+
+function clickReset() {
+  if (editFlag !== 1 && drawLotsFlag != 1) {
+    if (document.querySelectorAll('.textList>.text').length !== 0) {
+      let resetNumber = document.querySelectorAll('.textList>.text').length
+      for (i = resetNumber - 1; i >= 0; i--) {
+        document
+          .querySelectorAll('.textList>.text')
+          [i].parentNode.removeChild(
+            document.querySelectorAll('.textList>.text')[i]
+          )
+
+        document
+          .querySelectorAll('.triangle')
+          [i].parentNode.removeChild(document.querySelectorAll('.triangle')[i])
+      }
+
+      document.querySelector('.drawLots').innerHTML = ''
+
+      document.querySelector('.turntableCircle').style.display = 'none'
+      document.querySelector('.centerCircle').style.display = 'none'
+      document.querySelector('.drawLotsList').style.display = 'none'
+    }
   }
 }
