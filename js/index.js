@@ -3,35 +3,40 @@ document.querySelector('.add').addEventListener('click', clickAdd)
 function clickAdd() {
   // 新增文字框
   if (editFlag !== 1 && drawLotsFlag != 1) {
-    // 編輯完成按鈕不顯示時
-    let newText = document.createElement('div')
-    newText.classList.add('text')
-    let textNumber = document.querySelectorAll('.text')
-    newText.innerHTML =
-      `<div class="number">` +
-      (textNumber.length + 1) +
-      `</div>
+    if (document.querySelector('.function>input').value.trim().length !== 0) {
+      // 編輯完成按鈕不顯示時
+      let newText = document.createElement('div')
+      newText.classList.add('text')
+      let textNumber = document.querySelectorAll('.text')
+      newText.innerHTML =
+        `<div class="number">` +
+        (textNumber.length + 1) +
+        `</div>
       <input class="editText" type="text" name="" id="" disabled/>
       <button class="editComplete" style="display:none">編輯完成</button>
       <button class="delete">刪除</button>`
 
-    // 將在輸入框輸入的文字加入文字框中
-    newText.childNodes[2].value =
-      document.querySelector('.function>input').value
+      // 將在輸入框輸入的文字加入文字框中
+      newText.childNodes[2].value =
+        document.querySelector('.function>input').value
 
-    document.querySelector('.textList').appendChild(newText)
+      document.querySelector('.textList').appendChild(newText)
 
-    // 新增元素
-    let triangle = document.createElement('div')
-    // 為元素添加名為triangle的class
-    triangle.classList.add('triangle')
-    // 將輸入的文字加入轉盤等份中
-    triangle.innerHTML =
-      `<div class="rowText">` + newText.childNodes[2].value + `</div>`
-    document.querySelector('.turntableCircle').appendChild(triangle)
+      // 新增元素
+      let triangle = document.createElement('div')
+      // 為元素添加名為triangle的class
+      triangle.classList.add('triangle')
+      // 將輸入的文字加入轉盤等份中
+      triangle.innerHTML =
+        `<div class="rowText">` + newText.childNodes[2].value + `</div>`
+      document.querySelector('.turntableCircle').appendChild(triangle)
 
-    addTriangle(textNumber.length + 1)
-    document.querySelector('.function>input').value = ''
+      addTriangle(textNumber.length + 1)
+      document.querySelector('.function>input').value = ''
+    } else {
+      alert('請輸入文字')
+      document.querySelector('.function>input').value = ''
+    }
   }
 }
 
