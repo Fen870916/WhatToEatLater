@@ -2,7 +2,7 @@
 document.querySelector('.add').addEventListener('click', clickAdd)
 function clickAdd() {
   // 新增文字框
-  if (editFlag !== 1 && drawLotsFlag != 1) {
+  if (editFlag !== 1 && drawLotsFlag !== 1 && titleFlag !== 1) {
     if (
       document.querySelector('.function>div>input').value.trim().length !== 0
     ) {
@@ -40,6 +40,13 @@ function clickAdd() {
       alert('請輸入文字')
       document.querySelector('.function>div>input').value = ''
     }
+  } else if (titleFlag === 1) {
+    document.querySelector('.title').innerHTML = document.querySelector(
+      '.function>div>input'
+    ).value
+    titleFlag = 0
+    document.querySelector('.function>div>input').value = ''
+    document.querySelector('.function>div>.add').innerHTML = '新增'
   }
 }
 
@@ -240,7 +247,9 @@ function clickStart() {
     document.querySelectorAll('.textList>.text').length !== 0
   ) {
     if (resetFlag === 1) {
+      // 重置後
       rotateDegLast = 0
+      resetFlag = 0
     }
     drawLotsFlag = 1
     document.querySelector('.function>div>input').disabled = true
@@ -367,4 +376,17 @@ function clickReset() {
       resetFlag = 1
     }
   }
+}
+
+// 自定義title
+document.querySelector('.title').addEventListener('click', clickTitle)
+let titleFlag
+function clickTitle() {
+  document.querySelector('.function>div>input').value =
+    document.querySelector('.title').innerHTML
+
+  titleFlag = 1
+  document.querySelector('.function>div>.add').innerHTML = '修改'
+
+  document.querySelector('.function>div>input').focus()
 }
