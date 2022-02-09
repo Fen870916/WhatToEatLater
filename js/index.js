@@ -239,6 +239,9 @@ function clickStart() {
     document.querySelector('.turntableCircle').style.display !== 'none' &&
     document.querySelectorAll('.textList>.text').length !== 0
   ) {
+    if (resetFlag === 1) {
+      rotateDegLast = 0
+    }
     drawLotsFlag = 1
     document.querySelector('.function>div>input').disabled = true
     let turntableCircle = document.querySelector('.turntableCircle')
@@ -249,7 +252,7 @@ function clickStart() {
         Math.floor(
           Math.random() * document.querySelectorAll('.textList>.text').length
         )
-    let rotateDeg = rotateDegLast + 1080 + drawOptionsDeg
+    rotateDeg = rotateDegLast + 1080 + drawOptionsDeg
     if (
       rotateDeg % (360 / document.querySelectorAll('.triangle').length / 2) ===
         0 &&
@@ -329,10 +332,11 @@ function clickPosition() {
   }
 }
 
+// 重置
 document
   .querySelector('.function>div>.reset')
   .addEventListener('click', clickReset)
-
+let resetFlag
 function clickReset() {
   if (editFlag !== 1 && drawLotsFlag != 1) {
     if (document.querySelectorAll('.textList>.text').length !== 0) {
@@ -357,6 +361,7 @@ function clickReset() {
       document.querySelector('.function>div>input').value = ''
       document.querySelector('.turntableCircle').style.transform =
         'rotate(0deg)'
+      resetFlag = 1
     }
   }
 }
