@@ -339,7 +339,10 @@ document
 let resetFlag
 function clickReset() {
   if (editFlag !== 1 && drawLotsFlag != 1) {
-    if (document.querySelectorAll('.textList>.text').length !== 0) {
+    if (
+      document.querySelectorAll('.textList>.text').length !== 0 ||
+      document.querySelector('.drawLotsList').style.display !== 'none'
+    ) {
       let resetNumber = document.querySelectorAll('.textList>.text').length
       for (i = resetNumber - 1; i >= 0; i--) {
         document
