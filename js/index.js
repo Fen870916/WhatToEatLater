@@ -236,13 +236,20 @@ function clickStart() {
     drawLotsFlag != 1 &&
     // 正在新增時不可旋轉
     document.querySelector('.function>div>input').value === '' &&
-    document.querySelector('.turntableCircle').style.display !== 'none'
+    document.querySelector('.turntableCircle').style.display !== 'none' &&
+    document.querySelectorAll('.textList>.text').length !== 0
   ) {
     drawLotsFlag = 1
     document.querySelector('.function>div>input').disabled = true
     let turntableCircle = document.querySelector('.turntableCircle')
     let turntableCircleStyle = turntableCircle.style
-    rotateDeg = rotateDegLast + 1080 + Math.floor(Math.random() * 360)
+    let drawOptionsDeg =
+      360 -
+      (360 / document.querySelectorAll('.textList>.text').length) *
+        Math.floor(
+          Math.random() * document.querySelectorAll('.textList>.text').length
+        )
+    let rotateDeg = rotateDegLast + 1080 + drawOptionsDeg
     if (
       rotateDeg % (360 / document.querySelectorAll('.triangle').length / 2) ===
         0 &&
@@ -347,6 +354,7 @@ function clickReset() {
       document.querySelector('.turntableCircle').style.display = 'none'
       document.querySelector('.centerCircle').style.display = 'none'
       document.querySelector('.drawLotsList').style.display = 'none'
+      document.querySelector('.function>div>input').value = ''
     }
   }
 }

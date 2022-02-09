@@ -107,12 +107,12 @@ body {
 }
 
 .function {
-  margin-top: calc(var(--adjacentSide) * 0.2);
+  margin-top: calc(var(--adjacentSide) * 0.1);
   z-index: 99999;
   text-align: right;
 }
 
-.function > div:first-of-type {
+.function > div {
   margin-bottom: 5px;
 }
 
@@ -212,7 +212,7 @@ body {
   padding: 0 5px;
 }
 .drawLotsList {
-  margin: calc(var(--adjacentSide) * 0.1);
+  margin-top: calc(var(--adjacentSide) * 0.05);
 }
 .drawLots {
   padding: 5px;
