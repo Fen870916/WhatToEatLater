@@ -355,6 +355,8 @@ function clickReset() {
       document.querySelector('.centerCircle').style.display = 'none'
       document.querySelector('.drawLotsList').style.display = 'none'
       document.querySelector('.function>div>input').value = ''
+      document.querySelector('.turntableCircle').style.transform =
+        'rotate(0deg)'
     }
   }
 }
