@@ -181,6 +181,7 @@ function clickDelete(e) {
 // editFlag = 1,正在編輯
 let editFlag = 0
 document.addEventListener('click', clickText)
+let lastContent
 function clickText(e) {
   if (document.querySelectorAll('.triangle').length !== 0) {
     document.querySelector('.turntableCircle').style.display = 'block'
@@ -193,20 +194,32 @@ function clickText(e) {
       editFlag === 0 &&
       drawLotsFlag != 1
     ) {
+      lastContent = e.target.value
+
       editComplete[i].style.display = 'inline-block'
       editFlag = 1
       e.target.disabled = false
       e.target.focus()
     } else if (e.target === editComplete[i]) {
-      document
-        .querySelectorAll('.triangle')
-        [
-          e.target.parentNode.querySelector('.number').innerHTML - 1
-        ].querySelector('.rowText').innerHTML =
-        e.target.parentNode.querySelector('.editText').value
-      editComplete[i].style.display = 'none'
-      editFlag = 0
-      e.target.parentNode.querySelector('.editText').disabled = true
+      if (
+        e.target.parentNode.querySelector('.editText').value.trim().length !== 0
+      ) {
+        document
+          .querySelectorAll('.triangle')
+          [
+            e.target.parentNode.querySelector('.number').innerHTML - 1
+          ].querySelector('.rowText').innerHTML =
+          e.target.parentNode.querySelector('.editText').value
+        editComplete[i].style.display = 'none'
+        editFlag = 0
+        e.target.parentNode.querySelector('.editText').disabled = true
+      } else {
+        alert('編輯內容不可為空白')
+        e.target.parentNode.querySelector('.editText').value = lastContent
+        editComplete[i].style.display = 'none'
+        editFlag = 0
+        e.target.parentNode.querySelector('.editText').disabled = true
+      }
     } else {
       if (editComplete[i]) {
         if (
