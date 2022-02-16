@@ -1,5 +1,5 @@
 <h1>WhatToEatLater</h1>
-    前往:<a href="https://fen870916.github.io/WhatToEatLater/" target="_blank"
+    前往<a href="https://fen870916.github.io/WhatToEatLater/" target="_blank"
       >作品</a
     >
     <h2>功能</h2>
