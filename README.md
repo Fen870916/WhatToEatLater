@@ -6,6 +6,7 @@
     <h3>新增</h3>
     <li>輸入非空白文字後按下新增按鈕即可新增選項</li><br>
     <img src="./mp4/轉盤 - Google Chrome 2022-02-17 04-34-34.mp4" alt="" />
+    https://user-images.githubusercontent.com/62043777/154363419-829d7fdd-a260-4954-9ead-98e08adc12cb.mp4
     <h3>編輯</h3>
     <li>按下文字框後可以編輯</li><br>
     <li>編輯完需按下編輯完成</li><br>
@@ -14,3 +15,7 @@
     <h3>刪除</h3>
     <h3>開始</h3>
     <h3>重置</h3>
+
+
+
+
