@@ -8,7 +8,7 @@
     <img src="./gif/新增.gif" alt="" /><br>
     <h3>編輯</h3>
     <li>按下文字框後可以編輯</li><br>
-    <img src="./gif/編輯.gif" alt="" /><br>
+    <img src="./gif/編輯.gif" alt="" />
     <li>編輯完需按下編輯完成</li><br>
     <img src="./gif/編輯.gif" alt="" />
     <li>編輯所輸入的文字不能為空白</li><br>
